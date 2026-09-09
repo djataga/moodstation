@@ -1,0 +1,11 @@
+[Unit]
+Description=MoodStation - sync nocturne de la bibliotheque et des playlists
+
+[Timer]
+# Tous les jours a 03h00, rattrape si le Pi eteint au moment prevu.
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+RandomizedDelaySec=10m
+
+[Install]
+WantedBy=timers.target

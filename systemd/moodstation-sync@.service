@@ -1,0 +1,14 @@
+[Unit]
+Description=MoodStation - synchronisation bibliotheque + playlists DS Audio
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Adaptez l'utilisateur et le repertoire du projet si besoin.
+User=%i
+WorkingDirectory=/home/%i/moodstation
+ExecStart=/home/%i/moodstation/.venv/bin/moodstation sync
+# Sur Pi 3B une sync complete peut etre longue : pas de limite de temps agressive.
+TimeoutStartSec=4h
+Nice=10

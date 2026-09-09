@@ -1,0 +1,19 @@
+[Unit]
+Description=MoodStation - serveur LLM local (llama.cpp)
+After=network.target
+
+[Service]
+Type=simple
+# Adaptez : utilisateur, chemins du binaire llama-server, du modèle et les threads.
+User=%i
+ExecStart=/home/%i/llama.cpp/build/bin/llama-server \
+  -m /home/%i/models/qwen2.5-0.5b-instruct-q4_k_m.gguf \
+  --host 127.0.0.1 --port 8081 -t 4 -c 1024
+Restart=on-failure
+RestartSec=10
+# Le Pi 3B n'a qu'1 Go : on reste léger et on interdit le swap agressif.
+MemoryMax=700M
+Nice=5
+
+[Install]
+WantedBy=multi-user.target

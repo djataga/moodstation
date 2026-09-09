@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest_cache/
+
+# Configuration réelle (contient des identifiants)
+config.yaml
+
+# Données locales et modèles LLM
+data/
+models/
+*.db
+*.gguf
+
+# Divers
+.DS_Store
+Thumbs.db

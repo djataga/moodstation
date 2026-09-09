@@ -1,0 +1,55 @@
+# MoodStation — exemple de configuration
+# Copiez ce fichier en `config.yaml` puis adaptez-le :
+#   cp config.example.yaml config.yaml
+# Le fichier config.yaml est ignoré par git (identifiants !).
+
+synology:
+  # URL du DSM du DS213j (DSM 6.2 attendu sur ce modèle)
+  host: "http://192.168.1.50:5000"
+  # Conseil : utilisez VOTRE compte DSM principal pour que les playlists
+  # générées apparaissent directement dans DS Audio (playlists personnelles).
+  account: "moncompte"
+  password: "motdepasse"
+  session: "moodstation"
+  # Compte avec 2FA/OTP non supporté : créez un compte dédié sans 2FA si besoin.
+
+library:
+  # Chemin LOCAL (sur le Raspberry Pi) où est monté le dossier musique du NAS
+  # en lecture seule, ex. via NFS ou SMB. Laissez vide si pas de montage :
+  # MoodStation fonctionnera avec les métadonnées de l'API Audio Station seules.
+  local_music_path: ""
+  # Base SQLite locale sur le Pi (index des ambiances)
+  db_path: "data/moodstation.db"
+
+llm:
+  # "llamacpp" : serveur llama.cpp local sur le Pi (recommandé sur Pi 3B)
+  # "openai"   : toute API compatible OpenAI (ex. distant, si disponible)
+  # "none"     : pas de LLM, heuristiques seules (fonctionne dès le premier jour)
+  backend: "llamacpp"
+  base_url: "http://127.0.0.1:8081"
+  model: "qwen2.5-0.5b-instruct-q4_k_m"
+  timeout_s: 180
+  # Nombre de morceaux enrichis par le LLM à chaque `moodstation sync`
+  # (sur Pi 3B, prévoyez un batch nocturne modeste : 100 à 300 par nuit)
+  batch_tracks: 100
+
+playlists:
+  default_size: 40
+  # Préfixe des playlists créées dans DS Audio (facile à repérer)
+  prefix: "Mood"
+  # Nombre maximum de morceaux consécutifs du même artiste
+  max_per_artist: 2
+  # Playlists "préréglées" : régénérées automatiquement à chaque sync
+  presets:
+    - name: "Détente"
+      prompt: "calme et relaxant, pour se détendre le soir"
+      size: 40
+    - name: "Énergie"
+      prompt: "dynamique et motivant, pour le sport ou la course"
+      size: 40
+    - name: "Focus"
+      prompt: "instrumental et posé, pour se concentrer au travail"
+      size: 40
+
+sync:
+  auto_tag_new: true
